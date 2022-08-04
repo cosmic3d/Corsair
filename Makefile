@@ -1,6 +1,6 @@
 CC = gcc
 INCLUDES = -I ~/.brew/opt/openssl@1.1/include -L ~/.brew/opt/openssl@1.1/lib -lcrypto -lssl
-FILES = main.c gcd.c
+FILES = main.c gcd.c create_private_key.c
 
 all:
 	$(CC) $(INCLUDES) -o corsair.exe $(FILES)

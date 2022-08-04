@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	g.vars2.n = BN_new();
 	g.vars.e = BN_new();
 	g.vars2.e = BN_new();
+	g.vars.q = BN_new();
 	g.gcd = BN_new();
 	//Comparamos todos los certificados hasta que veamos que el mcd de algunos es distinto de 1
 	while(i < argc - 1 && g.vars.factor_found == 0)
@@ -52,6 +53,10 @@ int main(int argc, char **argv)
 		green();
 		printf("\n\nA gcd(n1, n2) != 1 has been found!\n\n");
 		reset();
+		if (get_q(&g) == -1)
+			return (0);
+		cpk(g.gcd, g.vars.q);
+		return (0);
 	}
 	else
 	{

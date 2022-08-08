@@ -34,7 +34,7 @@ typedef struct s_global
 void red ();
 void yellow ();
 void reset ();
-void green (); 
+void green ();
 int		euclides_shit(t_global *g, char *i, char *j);
 int		error_args(int argc, char **pems);
 int	set_ne(t_global *g, char *w, int i);

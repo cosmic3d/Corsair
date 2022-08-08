@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corsair.h"
+#include "../corsair.h"
 
 int main(int argc, char **argv)
 {
 	t_global	g;
-
+	FILE	*public;
 
 	int	i = 1;
 	int	j;
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 		reset();
 		if (get_q(&g) == -1)
 			return (0);
-		cpk(g.gcd, g.vars.q);
+		cpk(BN_bn2dec(g.gcd), BN_bn2dec(g.vars.q));
 		return (0);
 	}
 	else

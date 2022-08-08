@@ -1,4 +1,4 @@
-#include "corsair.h"
+#include "../corsair.h"
 
 void red () 
 {
@@ -77,6 +77,7 @@ int		error_args(int argc, char **pems)
 int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 {
 	FILE *fp;
+	FILE *fp2;
 	RSA *rsa;
 
 	fp = fopen(w, "r");
@@ -97,6 +98,9 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 		return (-1);
 	}
 	fclose(fp);
+	fp2 = fopen("pems/public.pem", "w");
+	PEM_write_RSA_PUBKEY(fp2, rsa);
+	fclose(fp2);
 	if (i == 0)
 	{
 		g->vars.n = RSA_get0_n(rsa);
@@ -113,10 +117,10 @@ int	print_ne(t_global *g, char *i, char *j)
 	green();
 	printf("\n-----%s-----\n", i);
 	reset();
-	printf("\nExponent: %s\n\nModulus: %s\n\n", BN_bn2dec(g->vars.n), BN_bn2dec(g->vars.e));
+	printf("\nModulus: %s\n\nExponent: %s\n\n", BN_bn2dec(g->vars.n), BN_bn2dec(g->vars.e));
 	green();
 	printf("\n-----%s-----\n", j);
 	reset();
-	printf("\nExponent: %s\n\nModulus: %s\n\n", BN_bn2dec(g->vars2.n), BN_bn2dec(g->vars2.e));
+	printf("\nModulus: %s\n\nExponent: %s\n\n", BN_bn2dec(g->vars2.n), BN_bn2dec(g->vars2.e));
 	return(0);
 }

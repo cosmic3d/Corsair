@@ -1,4 +1,4 @@
-#include "corsair.h"
+#include "../corsair.h"
 
 // BN_div divides |numerator| by |divisor| and places the result in |quotient|
 // and the remainder in |rem|. Either of |quotient| or |rem| may be NULL, in
@@ -30,7 +30,7 @@ int get_q(t_global *g)
 
 int cpk(char *_p, char *_q)
 {
-
+  FILE   *fp;
   BIGNUM *n = BN_new ();
   BIGNUM *d = BN_new ();
   BIGNUM *e = BN_new ();
@@ -46,13 +46,13 @@ int cpk(char *_p, char *_q)
   RSA *key = RSA_new ();
 
   if (!(BN_dec2bn (&p, (const char *)_p)) || !(BN_dec2bn (&q, (const char *)_q))) {
-      fprintf (stderr, "usage: %s p q\n", "culo");
+      fprintf (stderr, "\nERROR SETTING P AND Q\n");
       exit (1);
   }
 
   if (!(BN_is_prime_ex (p, BN_prime_checks, ctx, NULL)) ||
       !(BN_is_prime_ex (q, BN_prime_checks, ctx, NULL))) {
-      fprintf (stderr, "%s: Arguments must both be prime!\n", "culo");
+      fprintf (stderr, "ERROR: Arguments must both be prime!\n");
       exit (1);
   }
 
@@ -88,10 +88,13 @@ int cpk(char *_p, char *_q)
   }
 
   /* Output the private key in human-readable and PEM forms */
-  RSA_print_fp (stdout, key, 5);
+  //RSA_print_fp (stdout, key, 5);
   printf("\n");
   PEM_write_RSAPrivateKey (stdout, key, NULL, NULL, 0, 0, NULL);
-
+  /* Write the private key to .pem file in pems directory */
+  fp = fopen("pems/private.pem", "w");
+	PEM_write_RSAPrivateKey(fp, key, NULL, NULL, NULL, NULL, NULL);
+	fclose(fp);
   /* Release allocated objects */
   BN_CTX_free (ctx);
   RSA_free(key); /* also frees n, e, d, p, q, dmp1, dmq1, iqmp */

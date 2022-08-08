@@ -27,6 +27,7 @@ typedef struct s_global
 {
     t_vars  vars;
     t_vars  vars2;
+    RSA     *pubkey;
     BIGNUM  *gcd;
 }               t_global;
 
@@ -40,4 +41,5 @@ int	set_ne(t_global *g, char *w, int i);
 int	print_ne(t_global *g, char *i, char *j);
 int get_q(t_global *g);
 int cpk(char *_p, char *_q);
+int decrypt(char c);
 #endif

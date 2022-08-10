@@ -1,6 +1,6 @@
 INCLUDES = -I ~/.brew/opt/openssl@1.1/include -L ~/.brew/opt/openssl@1.1/lib -lcrypto -lssl
 FILES = src/main.c src/gcd.c src/create_private_key.c
-FILES2 = src/decrypt.c src/crypt.c src/gcd.c
+FILES2 = src/crypt.c src/gcd.c src/encrypt.c src/decrypt.c
 
 all:
 	$(CC) $(INCLUDES) -o corsair.exe $(FILES)
@@ -12,12 +12,14 @@ help:
 	@echo Usage:
 	@echo make : ./corsair.exe will be generated
 	@echo 
-	@echo corsair.exe example.pem example2.pem ... : Compares all the public keys and tries to do the exploit. A pems folder will be created with the public and private key, in case the exploit succeeds.
+	@echo ./corsair.exe example.pem example2.pem ... : Compares all the public keys and tries to do the exploit. A pems folder will be created with the public and private key, in case the exploit succeeds.
 	@echo 
 	@echo make comp : Uses a series of test pems with the program
 	@echo 
 	@echo make exploit : A private and a public key in pems folder is required for this to compile.
 	@echo 
-	@echo exploit.exe 1 "message" : Encrypts a message for you
-	@echo exploit.exe 2 "message_encrypted" : Decrypts a message for you
-	@echo exploit.exe 3 "message" : Encrypts and decrypts a message for you
+	@echo ./exploit.exe 1 "message" | cat -e : Encrypts a message for you
+	@echo ./exploit.exe 2 "message_encrypted" size | cat -e : Decrypts a message for you (You have to specify the size in bytes of the key, otherwise it wont work)
+	@echo ./exploit.exe 3 "message" : Encrypts and decrypts a message for you
+	@echo 
+	@echo NOTE: The encrypted messages contain unprintable symbols, thats why you gotta use | cat -e

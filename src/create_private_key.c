@@ -95,6 +95,9 @@ int cpk(char *_p, char *_q)
   fp = fopen("pems/private.pem", "w");
 	PEM_write_RSAPrivateKey(fp, key, NULL, NULL, NULL, NULL, NULL);
 	fclose(fp);
+  green();
+  printf("\nThe private key has been saved at pems/private.pem\n");
+  reset();
   /* Release allocated objects */
   BN_CTX_free (ctx);
   RSA_free(key); /* also frees n, e, d, p, q, dmp1, dmq1, iqmp */

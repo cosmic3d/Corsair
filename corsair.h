@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/pem2.h>
@@ -30,7 +32,11 @@ typedef struct s_global
     RSA     *pubkey;
     BIGNUM  *gcd;
 }               t_global;
-
+typedef struct s_global2
+{
+    char *encrypted_message;
+    int	len_encrypted;
+}               t_global2;
 void red ();
 void yellow ();
 void reset ();
@@ -41,5 +47,7 @@ int	set_ne(t_global *g, char *w, int i);
 int	print_ne(t_global *g, char *i, char *j);
 int get_q(t_global *g);
 int cpk(char *_p, char *_q);
-int decrypt(char c);
+int encrypt_str(char *c, t_global2 *g);
+int decrypt_str(char *c, int size);
+char	*ft_itoa(int n);
 #endif

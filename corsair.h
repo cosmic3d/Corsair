@@ -19,7 +19,7 @@
 typedef struct s_vars
 {
     int     factor_found;
-    void **public;
+    RSA **public;
 	BIGNUM  *p;
     BIGNUM  *q;
     BIGNUM  *e;

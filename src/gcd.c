@@ -36,7 +36,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		BN_CTX_free (ctx);
 		return (-1);
 	}
-	if (g->vars.n == g->vars2.n)
+	if (strcmp(BN_bn2dec(g->vars.n), BN_bn2dec(g->vars2.n)) == 0)
 	{
 		//printf("\nvars is: %s\n\nvars2 is %s\n", BN_bn2dec(g->vars.n), BN_bn2dec(g->vars2.n));
 		yellow();

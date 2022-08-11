@@ -14,11 +14,15 @@ int main(int argc, char **argv)
         {
             if(encrypt_str(argv[2], &g) == -1)
                 return (0);
-            decrypt_str(g.encrypted_message, g.len_encrypted);
+            decrypt_str(&g);
         }
     }
     else if(argv[1][0] == '2' && argc == 4)
-        decrypt_str(argv[2], argv[3]);
+    {
+        g.encrypted_message = argv[2];
+        g.len_encrypted = argv[3];
+        decrypt_str(&g);
+    }
     else
     {
         red();

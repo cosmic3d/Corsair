@@ -48,6 +48,6 @@ int	print_ne(t_global *g, char *i, char *j);
 int get_q(t_global *g);
 int cpk(char *_p, char *_q);
 int encrypt_str(char *c, t_global2 *g);
-int decrypt_str(char *c, int size);
+int decrypt_str(t_global2 *g);
 char	*ft_itoa(int n);
 #endif

@@ -11,9 +11,9 @@
 
 int get_q(t_global *g)
 {
-  BN_CTX *ctx = BN_CTX_new ();
+  BN_CTX *ctx = BN_CTX_new();
 
-  if (BN_div(g->vars.q, NULL, g->vars.n, g->gcd, ctx) == 0)
+  if (BN_div(g->vars.q, NULL, g->vars2.n, g->gcd, ctx) == 0)
   {
     red();
     printf("\nThe division: N/Q has failed\n");

@@ -20,16 +20,15 @@ int encrypt_str(char *c, t_global2 *g)
 	//write(1, "\nAAqui lliga\n", 13);
 	while (c[i] != '\0')
 		i++;
+	//buffer = (char *)malloc(i);
 	//  int RSA_public_encrypt(int flen, const unsigned char *from,
     // unsigned char *to, RSA *rsa, int padding);
 	//write(1, "\nAAqui llega\n", 13);
-	i = RSA_public_encrypt(i, (unsigned char *)c, (unsigned char *)buffer, rsa, RSA_PKCS1_PADDING);
+	i = RSA_public_encrypt(RSA_size(rsa) - 11, (unsigned char *)c, (unsigned char *)buffer, rsa, RSA_PKCS1_PADDING);
 	//write(1, "\nAAqui llega\n", 13);
 	if (i == -1)
 	{
-		red();
 		printf("\n\n%s\n\n", "ERROR CREATING ENCRYPTED MESSAGE");
-		reset();
 		return (i);
 	}
 	printf("\n\nThe string you want to encrypt is: \n----\n%s\n----\n", c);
@@ -37,7 +36,7 @@ int encrypt_str(char *c, t_global2 *g)
 	printf("\n\nThe size in bytes is: \n----\n%i\n----\n", i);
 	g->encrypted_message = buffer;
 	g->len_encrypted = i;
-	printf("\n\nThe encryptedmessage is: \n----\n%s\n----\n", g->encrypted_message);
-	printf("\n\nThe len_encrypted is: \n----\n%i\n----\n", g->len_encrypted);
+	//printf("\n\nThe encryptedmessage is: \n----\n%s\n----\n", g->encrypted_message);
+	//printf("\n\nThe len_encrypted is: \n----\n%i\n----\n", g->len_encrypted);
 	return (i);
 }

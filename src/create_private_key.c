@@ -18,6 +18,7 @@ int get_q(t_global *g)
     red();
     printf("\nThe division: N/Q has failed\n");
     reset();
+    BN_CTX_free (ctx);
     return (-1);
   }
   green();
@@ -25,6 +26,7 @@ int get_q(t_global *g)
   printf("\nQ = %s\n", BN_bn2dec(g->vars.q));
   printf("\n\nWe can begin creating the private key!\n\n");
   reset();
+  BN_CTX_free (ctx);
   return (0);
 }
 
@@ -88,7 +90,6 @@ int cpk(char *_p, char *_q)
   }
 
   /* Output the private key in human-readable and PEM forms */
-  //RSA_print_fp (stdout, key, 5);
   printf("\n");
   PEM_write_RSAPrivateKey (stdout, key, NULL, NULL, 0, 0, NULL);
   /* Write the private key to .pem file in pems directory */

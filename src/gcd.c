@@ -33,6 +33,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		red();
 		printf("\nThe gcd between %s and %s has failed\n", i, j);
 		reset();
+		BN_CTX_free (ctx);
 		return (-1);
 	}
 	if (g->vars.n == g->vars2.n)
@@ -41,6 +42,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		yellow();
 		printf("\n%s and %s are the same\n", i, j);
 		reset();
+		BN_CTX_free (ctx);
 		return (0);
 	}
 	printf("\nGCD is: %s\n", BN_bn2dec(g->gcd));
@@ -49,6 +51,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		yellow();
 		printf("\nThe gcd between %s and %s is 1\n", i, j);
 		reset();
+		BN_CTX_free (ctx);
 		return (0);
 	}
 	else
@@ -58,6 +61,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		reset();
 		g->vars.factor_found = 1;
 		g->vars2.factor_found = 1;
+		BN_CTX_free (ctx);
 		return (0);
 	}
 }
@@ -95,6 +99,7 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 		red();
 		printf("\n\n%s\n\n", "ERROR READING PUBLIC KEY");
 		reset();
+		RSA_free(rsa);
 		return (-1);
 	}
 	fclose(fp);
@@ -105,10 +110,12 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	{
 		g->vars.n = RSA_get0_n(rsa);
 		g->vars.e = RSA_get0_e(rsa);
+		g->vars.public = &rsa;
 		return (0);
 	}
 	g->vars2.n = RSA_get0_n(rsa);
 	g->vars2.e = RSA_get0_e(rsa);
+	g->vars2.public = &rsa;
 	return (0);
 }
 

@@ -19,6 +19,7 @@
 typedef struct s_vars
 {
     int     factor_found;
+    void **public;
 	BIGNUM  *p;
     BIGNUM  *q;
     BIGNUM  *e;
@@ -29,7 +30,6 @@ typedef struct s_global
 {
     t_vars  vars;
     t_vars  vars2;
-    RSA     *pubkey;
     BIGNUM  *gcd;
 }               t_global;
 typedef struct s_global2

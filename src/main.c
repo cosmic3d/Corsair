@@ -12,6 +12,22 @@
 
 #include "../corsair.h"
 
+int free_g(t_global *g)
+{
+	BN_clear_free(g->gcd);
+	BN_clear_free(g->vars.e);
+	BN_clear_free(g->vars.n);
+	BN_clear_free(g->vars.p);
+	BN_clear_free(g->vars.q);
+	RSA_free(*g->vars.public);
+	BN_clear_free(g->vars2.e);
+	BN_clear_free(g->vars2.n);
+	BN_clear_free(g->vars2.p);
+	BN_clear_free(g->vars2.q);
+	RSA_free(*g->vars2.public);
+	return (0);
+}
+
 int main(int argc, char **argv)
 {
 	t_global	g;
@@ -35,15 +51,15 @@ int main(int argc, char **argv)
 	{
 		j = i + 1;
 		if (set_ne(&g, argv[i], 0) == -1)
-				return (0);
+				return (free_g(&g));
 		while (j < argc && g.vars2.factor_found == 0)
 		{
 			if (set_ne(&g, argv[j], 1) == -1)
-				return (0);
+				return (free_g(&g));
 			if (print_ne(&g, argv[i], argv[j]) == -1)
-				return (0);
+				return (free_g(&g));
 			if (euclides_shit(&g, argv[i], argv[j]) == -1)
-				return (0);
+				return (free_g(&g));
 			j++;
 		}
 		i++;
@@ -54,9 +70,9 @@ int main(int argc, char **argv)
 		printf("\n\nA gcd(n1, n2) != 1 has been found!\n\n");
 		reset();
 		if (get_q(&g) == -1)
-			return (0);
+			return (free_g(&g));
 		cpk(BN_bn2dec(g.gcd), BN_bn2dec(g.vars.q));
-		return (0);
+		return (free_g(&g));
 	}
 	else
 	{
@@ -64,5 +80,5 @@ int main(int argc, char **argv)
 		printf("\n\nNo gcd(n1, n2) != 1 has been found\n\n");
 		reset();
 	}
-    return (0);
+    return (free_g(&g));
 }

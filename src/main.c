@@ -19,19 +19,18 @@ int free_g(t_global *g)
 	BN_clear_free(g->vars.n);
 	BN_clear_free(g->vars.p);
 	BN_clear_free(g->vars.q);
-	RSA_free(*g->vars.public);
+	//RSA_free(*g->vars.public);
 	BN_clear_free(g->vars2.e);
 	BN_clear_free(g->vars2.n);
 	BN_clear_free(g->vars2.p);
 	BN_clear_free(g->vars2.q);
-	RSA_free(*g->vars2.public);
+	//RSA_free(*g->vars2.public);
 	return (0);
 }
 
 int main(int argc, char **argv)
 {
 	t_global	g;
-	FILE	*public;
 
 	int	i = 1;
 	int	j;

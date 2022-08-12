@@ -27,7 +27,9 @@ void green ()
 int		euclides_shit(t_global *g, char *i, char *j)
 {
 	BN_CTX *ctx = BN_CTX_new();
-	
+	char *gcd;
+	char *n;
+	char *n2;
 	if (BN_gcd(g->gcd, g->vars.n, g->vars2.n, ctx) == 0)
 	{
 		red();
@@ -36,22 +38,29 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		BN_CTX_free (ctx);
 		return (-1);
 	}
-	if (strcmp(BN_bn2dec(g->vars.n), BN_bn2dec(g->vars2.n)) == 0)
+	n = BN_bn2dec(g->vars.n);
+	n2 = BN_bn2dec(g->vars2.n);
+	if (strcmp(n, n2) == 0)
 	{
-		//printf("\nvars is: %s\n\nvars2 is %s\n", BN_bn2dec(g->vars.n), BN_bn2dec(g->vars2.n));
 		yellow();
 		printf("\n%s and %s are the same\n", i, j);
 		reset();
 		BN_CTX_free (ctx);
+		free(n);
+		free(n2);
 		return (0);
 	}
-	printf("\nGCD is: %s\n", BN_bn2dec(g->gcd));
-	if (strcmp(BN_bn2dec(g->gcd), "1") == 0)
+	gcd = BN_bn2dec(g->gcd);
+	printf("\nGCD is: %s\n", gcd);
+	if (strcmp(gcd, "1") == 0)
 	{
 		yellow();
 		printf("\nThe gcd between %s and %s is 1\n", i, j);
 		reset();
 		BN_CTX_free (ctx);
+		free(n);
+		free(n2);
+		free(gcd);
 		return (0);
 	}
 	else
@@ -62,6 +71,9 @@ int		euclides_shit(t_global *g, char *i, char *j)
 		g->vars.factor_found = 1;
 		g->vars2.factor_found = 1;
 		BN_CTX_free (ctx);
+		free(n);
+		free(n2);
+		free(gcd);
 		return (0);
 	}
 }
@@ -83,12 +95,16 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	FILE *fp;
 	FILE *fp2;
 	RSA *rsa;
+	BIGNUM *n;
+	BIGNUM *e;
 
+	n = BN_new();
+	e = BN_new();
 	fp = fopen(w, "r");
 	if (!fp)
 	{
 		red();
-		printf("\nERROR READING FILES: \n%s\n%s\n", w);
+		printf("\nERROR READING FILES: \n%s\n", w);
 		reset();
 		return (-1);
 	}
@@ -106,28 +122,48 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	fp2 = fopen("pems/public.pem", "w");
 	PEM_write_RSA_PUBKEY(fp2, rsa);
 	fclose(fp2);
+	n = RSA_get0_n(rsa);
+	e = RSA_get0_e(rsa);
 	if (i == 0)
 	{
-		g->vars.n = RSA_get0_n(rsa);
-		g->vars.e = RSA_get0_e(rsa);
-		g->vars.public = &rsa;
+		g->vars.n = BN_dup(n);
+		g->vars.e = BN_dup(e);
+		//g->vars.n = RSA_get0_n(rsa);
+		//g->vars.e = RSA_get0_e(rsa);
+		//g->vars.public = &rsa;
+		//BN_clear_free(n);
+		//BN_clear_free(e);
+		RSA_free(rsa);
 		return (0);
 	}
-	g->vars2.n = RSA_get0_n(rsa);
-	g->vars2.e = RSA_get0_e(rsa);
-	g->vars2.public = &rsa;
+	g->vars2.n = BN_dup(n);
+	g->vars2.e = BN_dup(e);
+	//g->vars2.n = RSA_get0_n(rsa);
+	//g->vars2.e = RSA_get0_e(rsa);
+	//BN_clear_free(n);
+	//BN_clear_free(e);
+	RSA_free(rsa);
+	//g->vars2.public = &rsa;
 	return (0);
 }
 
 int	print_ne(t_global *g, char *i, char *j)
 {
+	char *n;
+	char *e;
+
+	n = BN_bn2dec(g->vars.n);
+	e = BN_bn2dec(g->vars.e);
 	green();
 	printf("\n-----%s-----\n", i);
 	reset();
-	printf("\nModulus: %s\n\nExponent: %s\n\n", BN_bn2dec(g->vars.n), BN_bn2dec(g->vars.e));
+	printf("\nModulus: %s\n\nExponent: %s\n\n", n, e);
 	green();
 	printf("\n-----%s-----\n", j);
 	reset();
-	printf("\nModulus: %s\n\nExponent: %s\n\n", BN_bn2dec(g->vars2.n), BN_bn2dec(g->vars2.e));
+	printf("\nModulus: %s\n\nExponent: %s\n\n", n, e);
+
+	free(n);
+	free(e);
 	return(0);
 }

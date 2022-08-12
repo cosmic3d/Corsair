@@ -12,6 +12,8 @@
 int get_q(t_global *g)
 {
   BN_CTX *ctx = BN_CTX_new();
+  char *gcd;
+  char *q;
 
   if (BN_div(g->vars.q, NULL, g->vars2.n, g->gcd, ctx) == 0)
   {
@@ -21,12 +23,16 @@ int get_q(t_global *g)
     BN_CTX_free (ctx);
     return (-1);
   }
+  gcd = BN_bn2dec(g->gcd);
+  q = BN_bn2dec(g->vars.q);
   green();
-  printf("\nP = %s\n", BN_bn2dec(g->gcd));
-  printf("\nQ = %s\n", BN_bn2dec(g->vars.q));
+  printf("\nP = %s\n", gcd);
+  printf("\nQ = %s\n", q);
   printf("\n\nWe can begin creating the private key!\n\n");
   reset();
   BN_CTX_free (ctx);
+  free(gcd);
+  free(q);
   return (0);
 }
 
@@ -105,4 +111,7 @@ int cpk(char *_p, char *_q)
   BN_clear_free (phi);
   BN_clear_free (p1);
   BN_clear_free (q1);
+  //BN_clear_free (e);
+  free(_p);
+  free(_q);
 }

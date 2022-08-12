@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     else if(argv[1][0] == '2' && argc == 4)
     {
         g.encrypted_message = argv[2];
-        g.len_encrypted = argv[3];
+        //g.len_encrypted = argv[3];
         decrypt_str(&g);
     }
     else

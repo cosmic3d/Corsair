@@ -65,12 +65,19 @@ int main(int argc, char **argv)
 	}
 	if (g.vars.factor_found == 1 && g.vars2.factor_found == 1)
 	{
+		char *gcd;
+		char *q;
+
 		green();
 		printf("\n\nA gcd(n1, n2) != 1 has been found!\n\n");
 		reset();
 		if (get_q(&g) == -1)
 			return (free_g(&g));
-		cpk(BN_bn2dec(g.gcd), BN_bn2dec(g.vars.q));
+		gcd = BN_bn2dec(g.gcd);
+		q = BN_bn2dec(g.vars.q);
+		cpk(gcd, q);
+		//free(gcd);
+		//free(q);
 		return (free_g(&g));
 	}
 	else

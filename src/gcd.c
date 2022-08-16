@@ -97,9 +97,7 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	RSA *rsa;
 	BIGNUM *n;
 	BIGNUM *e;
-
-	n = BN_new();
-	e = BN_new();
+	
 	fp = fopen(w, "r");
 	if (!fp)
 	{
@@ -151,9 +149,13 @@ int	print_ne(t_global *g, char *i, char *j)
 {
 	char *n;
 	char *e;
+	char *n2;
+	char *e2;
 
 	n = BN_bn2dec(g->vars.n);
 	e = BN_bn2dec(g->vars.e);
+	n2 = BN_bn2dec(g->vars2.n);
+	e2 = BN_bn2dec(g->vars2.e);
 	green();
 	printf("\n-----%s-----\n", i);
 	reset();
@@ -161,9 +163,11 @@ int	print_ne(t_global *g, char *i, char *j)
 	green();
 	printf("\n-----%s-----\n", j);
 	reset();
-	printf("\nModulus: %s\n\nExponent: %s\n\n", n, e);
+	printf("\nModulus: %s\n\nExponent: %s\n\n", n2, e2);
 
 	free(n);
 	free(e);
+	free(n2);
+	free(e2);
 	return(0);
 }

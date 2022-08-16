@@ -4,6 +4,13 @@ int main(int argc, char **argv)
 {
     t_global2 g;
     
+    if (argc != 3 && argc != 4)
+    {
+        red();
+        printf("\n\nThere's an error in your input, check make help for more info\n\n");
+        reset();
+        return (0);
+    }
     if (argc == 3 && argv[1][0] != '2')
     {
         if (argv[1][0] == '1')

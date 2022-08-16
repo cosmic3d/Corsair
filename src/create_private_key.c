@@ -53,6 +53,7 @@ int cpk(char *_p, char *_q)
   BN_CTX *ctx = BN_CTX_new ();
   RSA *key = RSA_new ();
 
+
   if (!(BN_dec2bn (&p, (const char *)_p)) || !(BN_dec2bn (&q, (const char *)_q))) {
       fprintf (stderr, "\nERROR SETTING P AND Q\n");
       exit (1);

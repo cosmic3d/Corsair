@@ -66,7 +66,7 @@ int		euclides_shit(t_global *g, char *i, char *j)
 	else
 	{
 		green();
-		printf("\nThe gcd between %s and %s is:\n%s\n\nThe exploit may begin\n", i, j, BN_bn2dec(g->gcd));
+		printf("\nThe gcd between %s and %s is:\n%s\n\nThe exploit may begin\n", i, j, gcd);
 		reset();
 		g->vars.factor_found = 1;
 		g->vars2.factor_found = 1;
@@ -95,8 +95,8 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	FILE *fp;
 	FILE *fp2;
 	RSA *rsa;
-	BIGNUM *n;
-	BIGNUM *e;
+	//BIGNUM *n;
+	//BIGNUM *e;
 	
 	fp = fopen(w, "r");
 	if (!fp)
@@ -120,28 +120,28 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	fp2 = fopen("pems/public.pem", "w");
 	PEM_write_RSA_PUBKEY(fp2, rsa);
 	fclose(fp2);
-	n = RSA_get0_n(rsa);
-	e = RSA_get0_e(rsa);
+	//exit(1);
 	if (i == 0)
 	{
-		g->vars.n = BN_dup(n);
-		g->vars.e = BN_dup(e);
+		g->vars.n = RSA_get0_n(rsa);
+		g->vars.e = RSA_get0_e(rsa);
 		//g->vars.n = RSA_get0_n(rsa);
 		//g->vars.e = RSA_get0_e(rsa);
-		//g->vars.public = &rsa;
+		g->vars.public = &rsa;
 		//BN_clear_free(n);
 		//BN_clear_free(e);
-		RSA_free(rsa);
+		//RSA_free(rsa);
 		return (0);
 	}
-	g->vars2.n = BN_dup(n);
-	g->vars2.e = BN_dup(e);
+	//exit(1);
+	g->vars2.n = RSA_get0_n(rsa);
+	g->vars2.e = RSA_get0_e(rsa);
 	//g->vars2.n = RSA_get0_n(rsa);
 	//g->vars2.e = RSA_get0_e(rsa);
 	//BN_clear_free(n);
 	//BN_clear_free(e);
-	RSA_free(rsa);
-	//g->vars2.public = &rsa;
+	//RSA_free(rsa);
+	g->vars2.public = &rsa;
 	return (0);
 }
 

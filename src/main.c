@@ -19,12 +19,12 @@ int free_g(t_global *g)
 	BN_clear_free(g->vars.n);
 	BN_clear_free(g->vars.p);
 	BN_clear_free(g->vars.q);
-	//RSA_free(*g->vars.public);
+	RSA_free(*g->vars.public);
 	BN_clear_free(g->vars2.e);
 	BN_clear_free(g->vars2.n);
 	BN_clear_free(g->vars2.p);
 	BN_clear_free(g->vars2.q);
-	//RSA_free(*g->vars2.public);
+	RSA_free(*g->vars2.public);
 	return (0);
 }
 
@@ -39,10 +39,10 @@ int main(int argc, char **argv)
 		return(0);
 	g.vars.factor_found = 0;
 	g.vars2.factor_found = 0;
-	g.vars.n = BN_new();
-	g.vars2.n = BN_new();
-	g.vars.e = BN_new();
-	g.vars2.e = BN_new();
+	//g.vars.n = BN_new();
+	//g.vars2.n = BN_new();
+	//g.vars.e = BN_new();
+	//g.vars2.e = BN_new();
 	g.vars.q = BN_new();
 	g.gcd = BN_new();
 	//Comparamos todos los certificados hasta que veamos que el mcd de algunos es distinto de 1
@@ -55,14 +55,28 @@ int main(int argc, char **argv)
 		{
 			if (set_ne(&g, argv[j], 1) == -1)
 				return (free_g(&g));
+			//exit(1);
 			if (print_ne(&g, argv[i], argv[j]) == -1)
 				return (free_g(&g));
 			if (euclides_shit(&g, argv[i], argv[j]) == -1)
 				return (free_g(&g));
 			j++;
+			if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)
+			{
+				BN_clear_free(g.vars2.n);
+				BN_clear_free(g.vars2.e);
+			}
+			//RSA_free(*g.vars2.public);
 		}
 		i++;
+		if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)
+		{
+			BN_clear_free(g.vars.n);
+			BN_clear_free(g.vars.e);
+		}
+		//RSA_free(*g.vars.public);
 	}
+	//exit(1);
 	if (g.vars.factor_found == 1 && g.vars2.factor_found == 1)
 	{
 		char *gcd;
@@ -71,10 +85,12 @@ int main(int argc, char **argv)
 		green();
 		printf("\n\nA gcd(n1, n2) != 1 has been found!\n\n");
 		reset();
+		//exit(1);
 		if (get_q(&g) == -1)
 			return (free_g(&g));
 		gcd = BN_bn2dec(g.gcd);
 		q = BN_bn2dec(g.vars.q);
+		//exit(1);
 		cpk(gcd, q);
 		//free(gcd);
 		//free(q);

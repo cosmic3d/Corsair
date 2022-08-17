@@ -23,7 +23,6 @@ help:
 	@echo make exploit : A private and a public key in pems folder is required for this to compile.
 	@echo 
 	@echo ./exploit.exe 1 "message" | cat -e : Encrypts a message for you
-	@echo ./exploit.exe 2 "message_encrypted" | cat -e : Decrypts a message for you
-	@echo ./exploit.exe 3 "message" : Encrypts and decrypts a message for you
+	@echo ./exploit.exe 2 "message" | cat -e : Encrypts and decrypts a message for you
 	@echo 
 	@echo NOTE: The encrypted messages contain unprintable symbols, thats why you gotta use | cat -e

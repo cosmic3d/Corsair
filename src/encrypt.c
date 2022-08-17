@@ -10,6 +10,7 @@ int encrypt_str(char *c, t_global2 *g)
 	fp = fopen("pems/public.pem", "r");
 	rsa = RSA_new();
 	rsa = PEM_read_RSA_PUBKEY(fp, &rsa, NULL, NULL);
+	fclose(fp);
 	if(rsa == NULL)
 	{
 		red();
@@ -17,7 +18,6 @@ int encrypt_str(char *c, t_global2 *g)
 		reset();
 		return (-1);
 	}
-	//write(1, "\nAAqui lliga\n", 13);
 	while (c[i] != '\0')
 		i++;
 	//buffer = (char *)malloc(i);
@@ -36,6 +36,7 @@ int encrypt_str(char *c, t_global2 *g)
 	printf("\n\nThe size in bytes is: \n----\n%i\n----\n", i);
 	g->encrypted_message = buffer;
 	g->len_encrypted = i;
+	RSA_free(rsa);
 	//printf("\n\nThe encryptedmessage is: \n----\n%s\n----\n", g->encrypted_message);
 	//printf("\n\nThe len_encrypted is: \n----\n%i\n----\n", g->len_encrypted);
 	return (i);

@@ -19,12 +19,12 @@ int free_g(t_global *g)
 	BN_clear_free(g->vars.n);
 	BN_clear_free(g->vars.p);
 	BN_clear_free(g->vars.q);
-	RSA_free(*g->vars.public);
+	//RSA_free(*g->vars.public);
 	BN_clear_free(g->vars2.e);
 	BN_clear_free(g->vars2.n);
 	BN_clear_free(g->vars2.p);
 	BN_clear_free(g->vars2.q);
-	RSA_free(*g->vars2.public);
+	//RSA_free(*g->vars2.public);
 	return (0);
 }
 
@@ -50,7 +50,10 @@ int main(int argc, char **argv)
 	{
 		j = i + 1;
 		if (set_ne(&g, argv[i], 0) == -1)
-				return (free_g(&g));
+			return (free_g(&g));
+		//BN_clear_free(g.vars.n);
+		//BN_clear_free(g.vars.e);
+		//exit(1);
 		while (j < argc && g.vars2.factor_found == 0)
 		{
 			if (set_ne(&g, argv[j], 1) == -1)
@@ -58,6 +61,7 @@ int main(int argc, char **argv)
 			//exit(1);
 			if (print_ne(&g, argv[i], argv[j]) == -1)
 				return (free_g(&g));
+			//exit(1);
 			if (euclides_shit(&g, argv[i], argv[j]) == -1)
 				return (free_g(&g));
 			j++;
@@ -66,6 +70,7 @@ int main(int argc, char **argv)
 				BN_clear_free(g.vars2.n);
 				BN_clear_free(g.vars2.e);
 			}
+			//exit(1);
 			//RSA_free(*g.vars2.public);
 		}
 		i++;
@@ -74,6 +79,7 @@ int main(int argc, char **argv)
 			BN_clear_free(g.vars.n);
 			BN_clear_free(g.vars.e);
 		}
+		//exit(1);
 		//RSA_free(*g.vars.public);
 	}
 	//exit(1);
@@ -92,6 +98,7 @@ int main(int argc, char **argv)
 		q = BN_bn2dec(g.vars.q);
 		//exit(1);
 		cpk(gcd, q);
+		//exit(1);
 		//free(gcd);
 		//free(q);
 		return (free_g(&g));

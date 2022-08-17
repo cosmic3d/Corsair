@@ -10,6 +10,7 @@ int decrypt_str(t_global2 *g)
 	fp = fopen("pems/private.pem", "r");
 	rsa = RSA_new();
 	rsa = PEM_read_RSAPrivateKey(fp, &rsa, NULL, NULL);
+	fclose(fp);
 	if(rsa == NULL)
 	{
 		printf("\n\n%s\n\n", "ERROR READING PRIVATE KEY");
@@ -29,5 +30,7 @@ int decrypt_str(t_global2 *g)
 	}
 	printf("\n\nThe decrypted string is: \n----\n%s\n----\n", buffer);
 	printf("\n\nThe size in bytes is: \n----\n%i\n----\n", i);
+	RSA_free(rsa);
+	//free(buffer);
     return(i);
 }

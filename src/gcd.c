@@ -26,10 +26,12 @@ void green ()
 //                          BN_CTX *ctx);
 int		euclides_shit(t_global *g, char *i, char *j)
 {
+	//exit(1);
 	BN_CTX *ctx = BN_CTX_new();
 	char *gcd;
 	char *n;
 	char *n2;
+	
 	if (BN_gcd(g->gcd, g->vars.n, g->vars2.n, ctx) == 0)
 	{
 		red();
@@ -95,8 +97,8 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	FILE *fp;
 	FILE *fp2;
 	RSA *rsa;
-	//BIGNUM *n;
-	//BIGNUM *e;
+	BIGNUM *n;
+	BIGNUM *e;
 	
 	fp = fopen(w, "r");
 	if (!fp)
@@ -121,27 +123,31 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	PEM_write_RSA_PUBKEY(fp2, rsa);
 	fclose(fp2);
 	//exit(1);
+	n = RSA_get0_n(rsa);
+	e = RSA_get0_e(rsa);
 	if (i == 0)
 	{
-		g->vars.n = RSA_get0_n(rsa);
-		g->vars.e = RSA_get0_e(rsa);
+		g->vars.n = BN_dup(n);
+		g->vars.e = BN_dup(e);
 		//g->vars.n = RSA_get0_n(rsa);
 		//g->vars.e = RSA_get0_e(rsa);
-		g->vars.public = &rsa;
-		//BN_clear_free(n);
-		//BN_clear_free(e);
-		//RSA_free(rsa);
+		//g->vars.public = &rsa;
+		// BN_clear_free(n);
+		// BN_clear_free(e);
+		RSA_free(rsa);
+		//exit(1);
 		return (0);
 	}
 	//exit(1);
-	g->vars2.n = RSA_get0_n(rsa);
-	g->vars2.e = RSA_get0_e(rsa);
+	g->vars2.n = BN_dup(n);
+	g->vars2.e = BN_dup(e);
 	//g->vars2.n = RSA_get0_n(rsa);
 	//g->vars2.e = RSA_get0_e(rsa);
 	//BN_clear_free(n);
 	//BN_clear_free(e);
-	//RSA_free(rsa);
-	g->vars2.public = &rsa;
+	RSA_free(rsa);
+	//g->vars2.public = &rsa;
+	//exit(1);
 	return (0);
 }
 

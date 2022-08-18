@@ -11,7 +11,7 @@ leakscors:
 exploit:
 	$(CC) $(INCLUDES) -o exploit.exe $(FILES2)
 leaksploit:
-	leaks -atExit -- ./exploit.exe 1 "Como vea otro leak me suicido"
+	leaks -atExit -- ./exploit.exe 1 "As I see another leak I commit suicide"
 help:
 	@echo Usage:
 	@echo make : ./corsair.exe will be generated
@@ -25,4 +25,4 @@ help:
 	@echo ./exploit.exe 1 "message" | cat -e : Encrypts a message for you
 	@echo ./exploit.exe 2 "message" | cat -e : Encrypts and decrypts a message for you
 	@echo 
-	@echo NOTE: The encrypted messages contain unprintable symbols, thats why you gotta use | cat -e
+	@echo NOTE: The encrypted messages contain unprintable characters, thats why you gotta use | cat -e

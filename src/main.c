@@ -17,14 +17,10 @@ int free_g(t_global *g)
 	BN_clear_free(g->gcd);
 	BN_clear_free(g->vars.e);
 	BN_clear_free(g->vars.n);
-	BN_clear_free(g->vars.p);
 	BN_clear_free(g->vars.q);
-	//RSA_free(*g->vars.public);
 	BN_clear_free(g->vars2.e);
 	BN_clear_free(g->vars2.n);
-	BN_clear_free(g->vars2.p);
 	BN_clear_free(g->vars2.q);
-	//RSA_free(*g->vars2.public);
 	return (0);
 }
 
@@ -35,55 +31,42 @@ int main(int argc, char **argv)
 	int	i = 1;
 	int	j;
 
-	if (error_args(argc, argv) == -1)//Comprobamos errores de argumentos
+	if (error_args(argc, argv) == -1)//Managing argument errors
 		return(0);
+	//We initialize some variables
 	g.vars.factor_found = 0;
 	g.vars2.factor_found = 0;
-	//g.vars.n = BN_new();
-	//g.vars2.n = BN_new();
-	//g.vars.e = BN_new();
-	//g.vars2.e = BN_new();
 	g.vars.q = BN_new();
 	g.gcd = BN_new();
-	//Comparamos todos los certificados hasta que veamos que el mcd de algunos es distinto de 1
+	//We compare every single certificate with each other and try to find a GCD != 1
 	while(i < argc - 1 && g.vars.factor_found == 0)
 	{
 		j = i + 1;
-		if (set_ne(&g, argv[i], 0) == -1)
+		if (set_ne(&g, argv[i], 0) == -1)//We establish the values for the first certificate
 			return (free_g(&g));
-		//BN_clear_free(g.vars.n);
-		//BN_clear_free(g.vars.e);
-		//exit(1);
 		while (j < argc && g.vars2.factor_found == 0)
 		{
-			if (set_ne(&g, argv[j], 1) == -1)
+			if (set_ne(&g, argv[j], 1) == -1)//We establish the values for the second certificate
 				return (free_g(&g));
-			//exit(1);
-			if (print_ne(&g, argv[i], argv[j]) == -1)
+			if (print_ne(&g, argv[i], argv[j]) == -1)//We print the values of both certificates
 				return (free_g(&g));
-			//exit(1);
-			if (euclides_shit(&g, argv[i], argv[j]) == -1)
+			if (euclides_shit(&g, argv[i], argv[j]) == -1)//We check if there's a GCD != 1 between this two certificates
 				return (free_g(&g));
 			j++;
-			if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)
+			if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)//We free the variables used in case there's no gcd != 1 yet 
 			{
 				BN_clear_free(g.vars2.n);
 				BN_clear_free(g.vars2.e);
 			}
-			//exit(1);
-			//RSA_free(*g.vars2.public);
 		}
 		i++;
-		if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)
+		if (g.vars.factor_found != 1 && g.vars2.factor_found != 1)//We free the variables used in case there's no gcd != 1 yet 
 		{
 			BN_clear_free(g.vars.n);
 			BN_clear_free(g.vars.e);
 		}
-		//exit(1);
-		//RSA_free(*g.vars.public);
 	}
-	//exit(1);
-	if (g.vars.factor_found == 1 && g.vars2.factor_found == 1)
+	if (g.vars.factor_found == 1 && g.vars2.factor_found == 1)//In case we find a GCD != 1, we start creating the private key
 	{
 		char *gcd;
 		char *q;
@@ -91,16 +74,11 @@ int main(int argc, char **argv)
 		green();
 		printf("\n\nA gcd(n1, n2) != 1 has been found!\n\n");
 		reset();
-		//exit(1);
-		if (get_q(&g) == -1)
+		if (get_q(&g) == -1)//We get the q value for creating the private key
 			return (free_g(&g));
 		gcd = BN_bn2dec(g.gcd);
 		q = BN_bn2dec(g.vars.q);
-		//exit(1);
-		cpk(gcd, q);
-		//exit(1);
-		//free(gcd);
-		//free(q);
+		cpk(gcd, q);//We create and print the private key
 		return (free_g(&g));
 	}
 	else

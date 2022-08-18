@@ -1,14 +1,5 @@
 #include "../corsair.h"
 
-// BN_div divides |numerator| by |divisor| and places the result in |quotient|
-// and the remainder in |rem|. Either of |quotient| or |rem| may be NULL, in
-// which case the respective value is not returned. The result is rounded
-// towards zero; thus if |numerator| is negative, the remainder will be zero or
-// negative. It returns one on success or zero on error.
-//OPENSSL_EXPORT int BN_div(BIGNUM *quotient, BIGNUM *rem,
-//                          const BIGNUM *numerator, const BIGNUM *divisor,
-//                          BN_CTX *ctx);
-
 int get_q(t_global *g)
 {
   BN_CTX *ctx = BN_CTX_new();
@@ -112,7 +103,6 @@ int cpk(char *_p, char *_q)
   BN_clear_free (phi);
   BN_clear_free (p1);
   BN_clear_free (q1);
-  //BN_clear_free (e);
   free(_p);
   free(_q);
 }

@@ -20,12 +20,7 @@ int encrypt_str(char *c, t_global2 *g)
 	}
 	while (c[i] != '\0')
 		i++;
-	//buffer = (char *)malloc(i);
-	//  int RSA_public_encrypt(int flen, const unsigned char *from,
-    // unsigned char *to, RSA *rsa, int padding);
-	//write(1, "\nAAqui llega\n", 13);
 	i = RSA_public_encrypt(RSA_size(rsa) - 11, (unsigned char *)c, (unsigned char *)buffer, rsa, RSA_PKCS1_PADDING);
-	//write(1, "\nAAqui llega\n", 13);
 	if (i == -1)
 	{
 		printf("\n\n%s\n\n", "ERROR CREATING ENCRYPTED MESSAGE");
@@ -37,7 +32,5 @@ int encrypt_str(char *c, t_global2 *g)
 	g->encrypted_message = buffer;
 	g->len_encrypted = i;
 	RSA_free(rsa);
-	//printf("\n\nThe encryptedmessage is: \n----\n%s\n----\n", g->encrypted_message);
-	//printf("\n\nThe len_encrypted is: \n----\n%i\n----\n", g->len_encrypted);
 	return (i);
 }

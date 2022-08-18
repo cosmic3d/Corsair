@@ -19,8 +19,6 @@
 typedef struct s_vars
 {
     int     factor_found;
-    RSA **public;
-	BIGNUM  *p;
     BIGNUM  *q;
     BIGNUM  *e;
     BIGNUM  *n;

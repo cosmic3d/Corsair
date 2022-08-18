@@ -19,14 +19,8 @@ void green ()
 {
   printf("\033[0;32m");
 }
-
-// BN_gcd sets |r| = gcd(|a|, |b|). It returns one on success and zero
-// otherwise.
-//OPENSSL_EXPORT int BN_gcd(BIGNUM *r, const BIGNUM *a, const BIGNUM *b,
-//                          BN_CTX *ctx);
 int		euclides_shit(t_global *g, char *i, char *j)
 {
-	//exit(1);
 	BN_CTX *ctx = BN_CTX_new();
 	char *gcd;
 	char *n;
@@ -122,32 +116,18 @@ int	set_ne(t_global *g, char *w, int i)//MODIFICAR PARA T_VARS
 	fp2 = fopen("pems/public.pem", "w");
 	PEM_write_RSA_PUBKEY(fp2, rsa);
 	fclose(fp2);
-	//exit(1);
 	n = RSA_get0_n(rsa);
 	e = RSA_get0_e(rsa);
 	if (i == 0)
 	{
 		g->vars.n = BN_dup(n);
 		g->vars.e = BN_dup(e);
-		//g->vars.n = RSA_get0_n(rsa);
-		//g->vars.e = RSA_get0_e(rsa);
-		//g->vars.public = &rsa;
-		// BN_clear_free(n);
-		// BN_clear_free(e);
 		RSA_free(rsa);
-		//exit(1);
 		return (0);
 	}
-	//exit(1);
 	g->vars2.n = BN_dup(n);
 	g->vars2.e = BN_dup(e);
-	//g->vars2.n = RSA_get0_n(rsa);
-	//g->vars2.e = RSA_get0_e(rsa);
-	//BN_clear_free(n);
-	//BN_clear_free(e);
-	RSA_free(rsa);
-	//g->vars2.public = &rsa;
-	//exit(1);
+	RSA_free(rsa);//Dont worry, this also frees all the other values in the involved operations(n and e)
 	return (0);
 }
 

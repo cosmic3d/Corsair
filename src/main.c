@@ -14,13 +14,20 @@
 
 int free_g(t_global *g)
 {
-	BN_clear_free(g->gcd);
-	BN_clear_free(g->vars.e);
-	BN_clear_free(g->vars.n);
-	BN_clear_free(g->vars.q);
-	BN_clear_free(g->vars2.e);
-	BN_clear_free(g->vars2.n);
-	BN_clear_free(g->vars2.q);
+	if (g->gcd)
+		BN_clear_free(g->gcd);
+	if (g->vars.e)
+		BN_clear_free(g->vars.e);
+	if (g->vars.n)
+		BN_clear_free(g->vars.n);
+	if (g->vars.q)
+		BN_clear_free(g->vars.q);
+	if (g->vars2.e)
+		BN_clear_free(g->vars2.e);
+	if (g->vars2.n)
+		BN_clear_free(g->vars2.n);
+	if (g->vars2.q)
+		BN_clear_free(g->vars2.q);
 	return (0);
 }
 
